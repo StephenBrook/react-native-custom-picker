@@ -10,7 +10,7 @@ export default function App({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Platform: {Platform.OS}</Text>
+      <Text style={{ fontSize: 25 }}>Platform: {Platform.OS}</Text>
       <View style={styles.vwPickerSelection}>
         <Text>Selected: {selectedElement}</Text>
       </View>
@@ -36,10 +36,12 @@ const styles = StyleSheet.create({
     backgroundColor: "gray",
     alignItems: "center",
     justifyContent: "center",
+    gap: 20,
   },
   vwPickerSelection: {
     backgroundColor: "white",
     padding: 10,
     marginBottom: 10,
+    borderRadius: 12,
   },
 });
