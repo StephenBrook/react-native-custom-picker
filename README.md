@@ -5,20 +5,24 @@ A lightweight, customizable picker for React Native that adapts to both iOS and 
 ## Features
 
 - iOS: Uses `@react-native-picker/picker`
+  - this dependecy will automatically install once this package is installed.
 - Android: Uses `ScrollView` for a native-like experience
 - Customizable width, font size, background color
 
 ## Installation
 
-```sh
-yarn add @react-native-picker/picker
-```
+1. clone this repo to your machine: `git clone https://github.com/costa-rica/react-native-custom-picker.git`
+
+2. in your project folder:
+   `yarn add file:/path/to/react-native-custom-picker`
+   or
+   `npm install /path/to/react-native-custom-picker`
 
 ## Usage
 
 ```js
-import CustomPicker from "path-to-component";
-
+import CustomPicker from "react-native-custom-picker";
+import { useRef, useEffect } from "react";
 const [selectedItem, setSelectedItem] = useState("Apple");
 
 <CustomPicker
