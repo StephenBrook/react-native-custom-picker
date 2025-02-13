@@ -32,7 +32,7 @@ A customizable picker for React Native that adapts to both iOS and Android. This
 
 ```js
 import CustomPicker from "react-native-custom-picker";
-import { useRef, useEffect } from "react";
+import { useEffect } from "react";
 const [selectedItem, setSelectedItem] = useState("Apple");
 
 <CustomPicker
