@@ -1,0 +1,20 @@
+{
+  "name": "react-native-custom-picker",
+  "version": "1.0.0",
+  "description": "Wheel picker for iOS and Android",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "picker",
+    "react-native",
+    "custom picker",
+    "wheel picker"
+  ],
+  "author": "Nick Rodriguez <nrodrig1@gmail.com> (https://nick-rodriguez.info/)",
+  "license": "MIT",
+  "dependencies": {
+    "@react-native-picker/picker": "^2.4.0"
+  }
+}
