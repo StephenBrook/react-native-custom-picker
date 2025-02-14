@@ -19,7 +19,7 @@ export default function CustomPicker({
       "CustomPicker: The 'onChange' prop is required and must be a function."
     );
   }
-  if (value === undefined || !arrayElements.includes(value)) {
+  if (value === undefined) {
     throw new Error(
       `CustomPicker: The 'value' prop is required and must be one of the elements in 'arrayElements'. Received: ${value}.`
     );
