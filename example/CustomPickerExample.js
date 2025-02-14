@@ -17,13 +17,16 @@ export default function App({ navigation }) {
 
       <CustomPicker
         arrayElements={arrayElements}
-        selectedElement={selectedElement}
-        setSelectedElement={setSelectedElement}
-        backgroundColor={backgroundColor}
-        color={color}
-        itemHeight={60}
-        width={40}
-        fontSize={22}
+        value={selectedElement}
+        onChange={setSelectedElement}
+        style={{
+          color: color,
+          fontSize: 22,
+          backgroundColor: backgroundColor,
+          itemHeight: 60,
+          width: 40,
+          borderRadius: 12,
+        }}
       />
     </View>
   );

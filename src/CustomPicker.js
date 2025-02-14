@@ -4,23 +4,19 @@ import { Picker } from "@react-native-picker/picker";
 
 export default function CustomPicker({
   arrayElements,
-  selectedElement,
-  setSelectedElement,
-  backgroundColor = "black",
-  color = "white",
-  itemHeight,
-  width,
-  fontSize,
+  value,
+  onChange,
+  style,
 }) {
   const scrollViewRef = useRef(null);
 
   // Scroll to initially selected item
   useEffect(() => {
-    const initialIndex = arrayElements.indexOf(selectedElement);
+    const initialIndex = arrayElements.indexOf(value);
     console.log(`Platform.OS : ${Platform.OS}`);
     if (Platform.OS == "android") {
       scrollViewRef.current.scrollTo({
-        y: initialIndex * itemHeight,
+        y: initialIndex * style.itemHeight,
         animated: false,
       });
     }
@@ -30,70 +26,75 @@ export default function CustomPicker({
   const handleScrollEnd = (event) => {
     const offsetY = event.nativeEvent.contentOffset.y;
 
-    let index = Math.round(offsetY / itemHeight);
+    let index = Math.round(offsetY / style.itemHeight);
 
     // Ensure the selected index is within bounds
     index = Math.max(0, Math.min(index, arrayElements.length - 1));
 
-    setSelectedElement(arrayElements[index]);
+    onChange(arrayElements[index]);
   };
 
   const styles = StyleSheet.create({
     vwPickerWrapper: {
-      width: width, // Adjust based on the expected width of the selected text
-      height: itemHeight, // Adjust based on the Picker height
+      width: style.width, // Adjust based on the expected width of the selected text
+      height: style.itemHeight, // Adjust based on the Picker height
       overflow: "hidden", // Hides anything outside this area
       justifyContent: "center",
       alignItems: "center",
-      backgroundColor: "white",
-      borderRadius: 10,
+      borderRadius: style.borderRadius,
     },
     scrollViewContainer: {
       alignItems: "center",
+    },
+    scrollViewStyle: {
+      backgroundColor: style.backgroundColor,
+      width: style.width, // key to make the touchable area  on Android truly the size of the picker (and therefore increase sensitivity)
     },
     item: {
       justifyContent: "center",
       alignItems: "center",
       width: "100%",
+      height: style.itemHeight,
     },
     text: {
-      fontSize: fontSize,
+      fontSize: style.fontSize,
       textAlign: "center",
+      color: style.color,
     },
     selectedText: {
       fontWeight: "bold",
-      fontSize: fontSize,
+      fontSize: style.fontSize,
     },
+  });
+
+  const stylesIos = StyleSheet.create({
     vwPicker: {
-      width: 120, // Keep it wider so it allows scrolling
       alignItems: "center",
       justifyContent: "center",
     },
 
     picker: {
-      width: 200, // Needs to be wider than vwPickerWrapper to allow scrolling
-      color: "white",
-      backgroundColor: "black",
+      width: style.width * 2, // Needs to be wider than vwPickerWrapper to allow scrolling
+      backgroundColor: style.backgroundColor,
+    },
+    itemStyle: {
+      color: style.color,
+      fontWeight: "bold",
+      fontSize: style.fontSize,
     },
   });
 
   return (
-    <View style={[styles.vwPickerWrapper, { backgroundColor }]}>
+    <View style={[styles.vwPickerWrapper]}>
       {Platform.OS === "ios" ? (
-        <View style={styles.vwPicker}>
+        <View style={stylesIos.vwPicker}>
           <Picker
-            selectedValue={selectedElement.toString()} // 🔹 Convert to string
+            selectedValue={value.toString()} // 🔹 Convert to string
             onValueChange={(itemValue) =>
-              setSelectedElement(
-                isNaN(itemValue) ? itemValue : Number(itemValue)
-              )
+              onChange(isNaN(itemValue) ? itemValue : Number(itemValue))
             }
-            style={styles.picker}
-            itemStyle={{
-              color: "white",
-              fontWeight: "bold",
-              fontSize: fontSize,
-            }}
+            style={stylesIos.picker}
+            itemStyle={stylesIos.itemStyle}
           >
             {arrayElements.map((item, index) => (
               <Picker.Item
@@ -108,20 +109,17 @@ export default function CustomPicker({
         <ScrollView
           ref={scrollViewRef}
           showsVerticalScrollIndicator={false}
-          snapToInterval={itemHeight} // Ensures snapping to each item
+          snapToInterval={style.itemHeight} // Ensures snapping to each item
           decelerationRate="fast"
           onMomentumScrollEnd={handleScrollEnd}
           contentContainerStyle={styles.scrollViewContainer}
           scrollEventThrottle={16} // Ensures frequent updates
+          style={styles.scrollViewStyle}
         >
           {arrayElements.map((item, index) => (
-            <View key={index} style={[styles.item, { height: itemHeight }]}>
+            <View key={index} style={styles.item}>
               <Text
-                style={[
-                  styles.text,
-                  { color },
-                  selectedElement === item && styles.selectedText,
-                ]}
+                style={[styles.text, value === item && styles.selectedText]}
               >
                 {item}
               </Text>
